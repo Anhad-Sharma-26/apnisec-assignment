@@ -1,0 +1,42 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User model
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  issues    Issue[]
+  
+  @@map("users")
+}
+
+// Issue model
+model Issue {
+  id          String   @id @default(uuid())
+  type        String   // "cloud-security", "reteam-assessment", "vapt"
+  title       String
+  description String
+  priority    String   @default("medium") // "low", "medium", "high"
+  status      String   @default("open")   // "open", "in-progress", "closed"
+  
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@map("issues")
+  @@index([userId])
+  @@index([type])
+}
