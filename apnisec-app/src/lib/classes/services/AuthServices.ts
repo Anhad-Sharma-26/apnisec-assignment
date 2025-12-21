@@ -1,6 +1,7 @@
 import { UserRepository } from '../repositories/UserRepository';
 import { PasswordUtil } from '../utils/PasswordUtil';
 import { JWTUtil } from '../utils/JWTUtils';
+import { EmailUtil } from '../utils/EmailUtil';
 import { AuthValidator } from '../validators/AuthValidator';
 import { ILoginInput, IRegisterInput, IAuthTokens, IUserResponse } from '../../types';
 import { UnauthorizedError } from '../errors/AppError';
@@ -13,26 +14,35 @@ export class AuthService {
   }
 
   async register(data: any): Promise<{ user: IUserResponse; tokens: IAuthTokens }> {
-    const validatedData = AuthValidator.validateRegister(data);
+  const validatedData = AuthValidator.validateRegister(data);
 
-    const hashedPassword = await PasswordUtil.hash(validatedData.password);
 
-    const user = await this.userRepository.create({
-      email: validatedData.email,
-      password: hashedPassword,
-      name: validatedData.name,
-    });
+  const hashedPassword = await PasswordUtil.hash(validatedData.password);
 
-    const tokens = JWTUtil.generateTokens({
-      userId: user.id,
-      email: user.email,
-    });
+  // Create user
+  const user = await this.userRepository.create({
+    email: validatedData.email,
+    password: hashedPassword,
+    name: validatedData.name,
+  });
 
-    return {
-      user: this.userRepository.toResponse(user),
-      tokens,
-    };
-  }
+
+  const tokens = JWTUtil.generateTokens({
+    userId: user.id,
+    email: user.email,
+  });
+
+
+  EmailUtil.sendWelcomeEmail(user.email, user.name || 'User').catch(err => 
+    console.error('Failed to send welcome email:', err)
+  );
+
+
+  return {
+    user: this.userRepository.toResponse(user),
+    tokens,
+  };
+}
 
 
   async login(data: any): Promise<{ user: IUserResponse; tokens: IAuthTokens }> {

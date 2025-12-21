@@ -1,6 +1,7 @@
 import { IssueRepository } from '../repositories/IssueRepository';
 import { IssueValidator } from '../validators/IssueValidator';
 import { IIssue, IssueType } from '../../types';
+import { EmailUtil } from '../utils/EmailUtil';
 
 export class IssueService {
   private issueRepository: IssueRepository;
@@ -29,9 +30,23 @@ export class IssueService {
   }
 
   async createIssue(data: any, userId: string): Promise<IIssue> {
-    const validatedData = IssueValidator.validateCreate(data, userId);
-    return await this.issueRepository.create(validatedData);
+  const validatedData = IssueValidator.validateCreate(data, userId);
+  const issue = await this.issueRepository.create(validatedData);
+
+
+  const userRepo = new (await import('../repositories/UserRepository')).UserRepository();
+  const user = await userRepo.findById(userId);
+  
+  if (user) {
+    EmailUtil.sendIssueCreatedEmail(user.email, {
+      type: issue.type,
+      title: issue.title,
+      description: issue.description,
+    }).catch(err => console.error('Failed to send issue notification:', err));
   }
+
+  return issue;
+}
 
   async updateIssue(id: string, userId: string, data: any): Promise<IIssue> {
     const validatedData = IssueValidator.validateUpdate(data);
