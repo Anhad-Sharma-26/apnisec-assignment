@@ -7,14 +7,15 @@ import { applyRateLimit } from '../../../../lib/middleware/rateLimit';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     applyRateLimit(request);
     const { userId } = getAuthUser(request);
+    const { id } = await params;
     
     const issueService = new IssueService();
-    const issue = await issueService.getIssueById(params.id, userId);
+    const issue = await issueService.getIssueById(id, userId);
 
     return ResponseUtil.success(issue, 'Issue retrieved successfully');
   } catch (error) {
@@ -29,15 +30,16 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     applyRateLimit(request);
     const { userId } = getAuthUser(request);
+    const { id } = await params;
     const body = await request.json();
     
     const issueService = new IssueService();
-    const issue = await issueService.updateIssue(params.id, userId, body);
+    const issue = await issueService.updateIssue(id, userId, body);
 
     return ResponseUtil.success(issue, 'Issue updated successfully');
   } catch (error) {
@@ -52,14 +54,15 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     applyRateLimit(request);
     const { userId } = getAuthUser(request);
+    const { id } = await params;
     
     const issueService = new IssueService();
-    await issueService.deleteIssue(params.id, userId);
+    await issueService.deleteIssue(id, userId);
 
     return ResponseUtil.noContent();
   } catch (error) {
