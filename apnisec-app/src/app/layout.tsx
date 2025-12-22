@@ -2,12 +2,12 @@ import type { Metadata } from 'next';
 import './global.css';
 
 export const metadata: Metadata = {
-  title: 'ApniSec - Professional Cybersecurity Solutions',
+  title: 'AnhadSec - Professional Cybersecurity Solutions',
   description: 'Comprehensive cybersecurity services including Cloud Security, VAPT, and Reteam Assessments. Protect your digital assets with ApniSec.',
   keywords: ['cybersecurity', 'cloud security', 'VAPT', 'penetration testing', 'security assessment', 'vulnerability assessment'],
-  authors: [{ name: 'ApniSec' }],
-  creator: 'ApniSec',
-  publisher: 'ApniSec',
+  authors: [{ name: 'AnhadSec' }],
+  creator: 'AnhadSec',
+  publisher: 'AnhadSec',
   robots: {
     index: true,
     follow: true,
