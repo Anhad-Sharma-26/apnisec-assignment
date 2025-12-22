@@ -70,7 +70,7 @@ export default function ProfilePage() {
     <div className="min-h-screen bg-gray-100">
       <nav className="bg-white shadow-lg">
         <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-indigo-900">ApniSec Dashboard</h1>
+          <h1 className="text-2xl font-bold text-indigo-900">AnhadSec Dashboard</h1>
           <Link href="/dashboard" className="text-indigo-600 hover:text-indigo-800">
             ← Back to Dashboard
           </Link>

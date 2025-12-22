@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Dashboard - ApniSec',
+  title: 'Dashboard - AnhadSec',
   description: 'Manage your security issues and assessments.',
   robots: {
     index: false,

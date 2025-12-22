@@ -109,7 +109,7 @@ export default function DashboardPage() {
     <div className="min-h-screen bg-gray-100">
       <nav className="bg-white shadow-lg">
         <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-indigo-900">ApniSec Dashboard</h1>
+          <h1 className="text-2xl font-bold text-indigo-900">AnhadSec Dashboard</h1>
           <div className="flex gap-4 items-center">
             <Link href="/profile" className="text-gray-700 hover:text-indigo-900">Profile</Link>
             <button onClick={handleLogout} className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700">
