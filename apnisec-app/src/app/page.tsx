@@ -6,7 +6,7 @@ export default function Home() {
     <div className={styles.container}>
       <nav className={styles.nav}>
         <div className={styles.navInner}>
-          <div className={styles.logo}>🔐 ApniSec</div>
+          <div className={styles.logo}>🔐 AnhadSec</div>
           <Link href="/login" className={styles.loginBtn}>Login</Link>
         </div>
       </nav>
@@ -54,8 +54,8 @@ export default function Home() {
       </section>
 
       <footer className={styles.footer}>
-        <div className={styles.footerLogo}>🔐 ApniSec</div>
-        <p className={styles.footerText}>© 2024 ApniSec. All rights reserved.</p>
+        <div className={styles.footerLogo}>🔐 AnhadSec</div>
+        <p className={styles.footerText}>© 2024 AnhadSec. All rights reserved.</p>
         <p className={styles.footerSubtext}>Professional Cybersecurity Solutions</p>
       </footer>
     </div>
