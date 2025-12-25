@@ -9,7 +9,6 @@ export default function DashboardPage() {
   const [user, setUser] = useState<any>(null);
   const [issues, setIssues] = useState<any[]>([]);
   const [filter, setFilter] = useState('');
-  const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(true);
   const [formData, setFormData] = useState({
     type: 'cloud-security',
@@ -65,7 +64,6 @@ export default function DashboardPage() {
 
       const data = await res.json();
       if (data.success) {
-        setShowModal(false);
         setFormData({ type: 'cloud-security', title: '', description: '', priority: 'medium', status: 'open' });
         fetchIssues(token!);
       }
@@ -102,159 +100,177 @@ export default function DashboardPage() {
   };
 
   if (loading) {
-    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+    return <div className="min-h-screen bg-gray-900 flex items-center justify-center text-white">Loading...</div>;
   }
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <nav className="bg-white shadow-lg">
-        <div className="max-w-7xl mx-auto px-8 py-5 flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-indigo-900">AnhadSec Dashboard</h1>
-          <div className="flex gap-6 items-center">
-            <Link href="/profile" className="text-gray-700 hover:text-indigo-900 font-medium">Profile</Link>
-            <button onClick={handleLogout} className="bg-red-600 text-white px-5 py-2.5 rounded-lg hover:bg-red-700 font-medium">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-indigo-950 to-gray-900">
+      <div className="border-b border-gray-800">
+        <div className="max-w-7xl mx-auto px-8 py-6 flex justify-between items-center">
+          <div>
+            <h1 className="text-3xl font-bold text-cyan-400">Dashboard</h1>
+            <p className="text-gray-400 mt-1">Welcome back, {user?.name || user?.email}! 👋</p>
+          </div>
+          <div className="flex gap-4 items-center">
+            <Link href="/profile" className="text-gray-300 hover:text-cyan-400 font-medium transition">Profile</Link>
+            <button onClick={handleLogout} className="bg-red-600 text-white px-5 py-2 rounded-lg hover:bg-red-700 font-medium transition">
               Logout
             </button>
           </div>
         </div>
-      </nav>
-
-      <div className="max-w-7xl mx-auto px-8 py-10">
-        <div className="bg-white rounded-lg shadow-lg p-8 mb-10">
-          <h2 className="text-2xl font-bold mb-3">Welcome, {user?.name || user?.email}!</h2>
-          <p className="text-gray-600 text-lg">Manage your security issues and track assessments</p>
-        </div>
-
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 mb-8">
-          <div className="flex flex-wrap gap-3">
-            <button
-              onClick={() => handleFilterChange('')}
-              className={`px-5 py-2.5 rounded-lg font-medium transition ${!filter ? 'bg-indigo-600 text-white' : 'bg-gray-200 hover:bg-gray-300'}`}
-            >
-              All
-            </button>
-            <button
-              onClick={() => handleFilterChange('cloud-security')}
-              className={`px-5 py-2.5 rounded-lg font-medium transition ${filter === 'cloud-security' ? 'bg-indigo-600 text-white' : 'bg-gray-200 hover:bg-gray-300'}`}
-            >
-              Cloud Security
-            </button>
-            <button
-              onClick={() => handleFilterChange('reteam-assessment')}
-              className={`px-5 py-2.5 rounded-lg font-medium transition ${filter === 'reteam-assessment' ? 'bg-indigo-600 text-white' : 'bg-gray-200 hover:bg-gray-300'}`}
-            >
-              Reteam Assessment
-            </button>
-            <button
-              onClick={() => handleFilterChange('vapt')}
-              className={`px-5 py-2.5 rounded-lg font-medium transition ${filter === 'vapt' ? 'bg-indigo-600 text-white' : 'bg-gray-200 hover:bg-gray-300'}`}
-            >
-              VAPT
-            </button>
-          </div>
-          <button
-            onClick={() => setShowModal(true)}
-            className="w-full sm:w-auto bg-indigo-600 text-white px-8 py-3 rounded-lg hover:bg-indigo-700 font-medium"
-          >
-            Create Issue
-          </button>
-        </div>
-
-        <div className="grid gap-6">
-          {issues.length === 0 ? (
-            <div className="bg-white rounded-lg shadow p-12 text-center text-gray-500 text-lg">
-              No issues found. Create your first issue!
-            </div>
-          ) : (
-            issues.map((issue) => (
-              <div key={issue.id} className="bg-white rounded-lg shadow-lg p-8">
-                <div className="flex justify-between items-start mb-5">
-                  <div>
-                    <span className="inline-block px-4 py-1.5 bg-indigo-100 text-indigo-800 rounded-full text-sm font-medium mb-3">
-                      {issue.type.replace('-', ' ').toUpperCase()}
-                    </span>
-                    <h3 className="text-xl font-bold">{issue.title}</h3>
-                  </div>
-                  <button
-                    onClick={() => handleDeleteIssue(issue.id)}
-                    className="text-red-600 hover:text-red-800 font-medium"
-                  >
-                    Delete
-                  </button>
-                </div>
-                <p className="text-gray-600 mb-5 leading-relaxed">{issue.description}</p>
-                <div className="flex gap-6 text-sm text-gray-500">
-                  <span className="font-medium">Priority: <span className="text-gray-700">{issue.priority}</span></span>
-                  <span className="font-medium">Status: <span className="text-gray-700">{issue.status}</span></span>
-                  <span className="font-medium">Created: <span className="text-gray-700">{new Date(issue.createdAt).toLocaleDateString()}</span></span>
-                </div>
-              </div>
-            ))
-          )}
-        </div>
       </div>
 
-      {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-6 z-50">
-          <div className="bg-white rounded-lg p-8 max-w-md w-full">
-            <h2 className="text-2xl font-bold mb-6">Create New Issue</h2>
-            <form onSubmit={handleCreateIssue} className="space-y-5">
-              <div>
-                <label className="block text-gray-700 font-semibold mb-2">Type</label>
-                <select
-                  value={formData.type}
-                  onChange={(e) => setFormData({ ...formData, type: e.target.value })}
-                  className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+      <div className="max-w-7xl mx-auto px-8 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          
+          <div className="lg:col-span-1">
+            <div className="bg-gray-900 bg-opacity-50 backdrop-blur-xl rounded-2xl border border-indigo-500 border-opacity-30 p-6 shadow-2xl">
+              <h2 className="text-xl font-bold text-cyan-400 mb-6">Create New Issue</h2>
+              
+              <form onSubmit={handleCreateIssue} className="space-y-4">
+                <div>
+                  <label className="block text-gray-400 text-sm mb-2">Issue Type</label>
+                  <select
+                    value={formData.type}
+                    onChange={(e) => setFormData({ ...formData, type: e.target.value })}
+                    className="w-full px-4 py-2 bg-gray-900 bg-opacity-60 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-cyan-400 transition"
+                  >
+                    <option value="cloud-security">Cloud Security</option>
+                    <option value="reteam-assessment">Reteam Assessment</option>
+                    <option value="vapt">VAPT</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-gray-400 text-sm mb-2">Title</label>
+                  <input
+                    type="text"
+                    value={formData.title}
+                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                    placeholder="Enter issue title"
+                    className="w-full px-4 py-2 bg-gray-900 bg-opacity-60 border border-gray-700 rounded-lg text-white placeholder-gray-600 focus:outline-none focus:border-cyan-400 transition"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-gray-400 text-sm mb-2">Description</label>
+                  <textarea
+                    value={formData.description}
+                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                    placeholder="Describe the issue..."
+                    className="w-full px-4 py-2 bg-gray-900 bg-opacity-60 border border-gray-700 rounded-lg text-white placeholder-gray-600 focus:outline-none focus:border-cyan-400 transition resize-none"
+                    rows={4}
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-gray-400 text-sm mb-2">Priority (Optional)</label>
+                  <select
+                    value={formData.priority}
+                    onChange={(e) => setFormData({ ...formData, priority: e.target.value })}
+                    className="w-full px-4 py-2 bg-gray-900 bg-opacity-60 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-cyan-400 transition"
+                  >
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-gray-400 text-sm mb-2">Status (Optional)</label>
+                  <select
+                    value={formData.status}
+                    onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                    className="w-full px-4 py-2 bg-gray-900 bg-opacity-60 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-cyan-400 transition"
+                  >
+                    <option value="open">Open</option>
+                    <option value="in-progress">In Progress</option>
+                    <option value="closed">Closed</option>
+                  </select>
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full bg-cyan-500 text-gray-900 py-3 rounded-lg font-bold hover:bg-cyan-400 transition mt-6"
                 >
-                  <option value="cloud-security">Cloud Security</option>
-                  <option value="reteam-assessment">Reteam Assessment</option>
-                  <option value="vapt">VAPT</option>
-                </select>
-              </div>
-              <div>
-                <label className="block text-gray-700 font-semibold mb-2">Title</label>
-                <input
-                  type="text"
-                  value={formData.title}
-                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-gray-700 font-semibold mb-2">Description</label>
-                <textarea
-                  value={formData.description}
-                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                  className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                  rows={4}
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-gray-700 font-semibold mb-2">Priority</label>
-                <select
-                  value={formData.priority}
-                  onChange={(e) => setFormData({ ...formData, priority: e.target.value })}
-                  className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                >
-                  <option value="low">Low</option>
-                  <option value="medium">Medium</option>
-                  <option value="high">High</option>
-                </select>
-              </div>
-              <div className="flex gap-4 mt-8">
-                <button type="submit" className="flex-1 bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 font-medium">
-                  Create
+                  Create Issue
                 </button>
-                <button type="button" onClick={() => setShowModal(false)} className="flex-1 bg-gray-300 py-3 rounded-lg hover:bg-gray-400 font-medium">
-                  Cancel
-                </button>
-              </div>
-            </form>
+              </form>
+            </div>
           </div>
+
+          <div className="lg:col-span-2">
+            <div className="bg-gray-900 bg-opacity-50 backdrop-blur-xl rounded-2xl border border-indigo-500 border-opacity-30 p-6 shadow-2xl">
+              <h2 className="text-xl font-bold text-cyan-400 mb-6">Filter Issues</h2>
+              
+              <div className="flex flex-wrap gap-3 mb-8">
+                <button
+                  onClick={() => handleFilterChange('')}
+                  className={`px-5 py-2 rounded-lg font-medium transition ${!filter ? 'bg-cyan-500 text-gray-900' : 'bg-gray-800 text-gray-300 hover:bg-gray-700'}`}
+                >
+                  All
+                </button>
+                <button
+                  onClick={() => handleFilterChange('cloud-security')}
+                  className={`px-5 py-2 rounded-lg font-medium transition ${filter === 'cloud-security' ? 'bg-cyan-500 text-gray-900' : 'bg-gray-800 text-gray-300 hover:bg-gray-700'}`}
+                >
+                  Cloud Security
+                </button>
+                <button
+                  onClick={() => handleFilterChange('reteam-assessment')}
+                  className={`px-5 py-2 rounded-lg font-medium transition ${filter === 'reteam-assessment' ? 'bg-cyan-500 text-gray-900' : 'bg-gray-800 text-gray-300 hover:bg-gray-700'}`}
+                >
+                  Reteam Assessment
+                </button>
+                <button
+                  onClick={() => handleFilterChange('vapt')}
+                  className={`px-5 py-2 rounded-lg font-medium transition ${filter === 'vapt' ? 'bg-cyan-500 text-gray-900' : 'bg-gray-800 text-gray-300 hover:bg-gray-700'}`}
+                >
+                  VAPT
+                </button>
+              </div>
+
+              <h3 className="text-lg font-bold text-cyan-400 mb-4">Your Issues ({issues.length})</h3>
+
+              {issues.length === 0 ? (
+                <div className="text-center py-16">
+                  <div className="text-6xl mb-4">📋</div>
+                  <p className="text-cyan-400 text-lg font-semibold mb-2">No issues found</p>
+                  <p className="text-gray-400">Create your first issue to get started!</p>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {issues.map((issue) => (
+                    <div key={issue.id} className="bg-gray-800 bg-opacity-50 rounded-lg p-5 border border-gray-700">
+                      <div className="flex justify-between items-start mb-3">
+                        <span className="inline-block px-3 py-1 bg-cyan-500 bg-opacity-20 text-cyan-400 rounded-full text-xs font-bold">
+                          {issue.type.replace('-', ' ').toUpperCase()}
+                        </span>
+                        <button
+                          onClick={() => handleDeleteIssue(issue.id)}
+                          className="text-red-400 hover:text-red-300 text-sm font-medium"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                      <h4 className="text-white font-bold mb-2">{issue.title}</h4>
+                      <p className="text-gray-400 text-sm mb-3">{issue.description}</p>
+                      <div className="flex gap-4 text-xs text-gray-500">
+                        <span>Priority: <span className="text-gray-400">{issue.priority}</span></span>
+                        <span>Status: <span className="text-gray-400">{issue.status}</span></span>
+                        <span>Created: <span className="text-gray-400">{new Date(issue.createdAt).toLocaleDateString()}</span></span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+
         </div>
-      )}
+      </div>
     </div>
   );
 }

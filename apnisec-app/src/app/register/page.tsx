@@ -39,70 +39,68 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-800 flex items-center justify-center px-6 py-12">
-      <div className="bg-white rounded-2xl shadow-2xl p-10 w-full max-w-md">
-        <h1 className="text-3xl font-bold text-gray-800 mb-8 text-center">Create Account</h1>
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-indigo-950 to-gray-900 flex items-center justify-center px-6">
+      <div className="w-full max-w-md">
+        <div className="bg-gray-900 bg-opacity-50 backdrop-blur-xl rounded-2xl border border-indigo-500 border-opacity-30 p-10 shadow-2xl">
+          <h1 className="text-3xl font-bold text-cyan-400 mb-8 text-center">Create Secure Account</h1>
+          
+          {error && (
+            <div className="bg-red-900 bg-opacity-30 border border-red-500 text-red-300 px-4 py-3 rounded mb-6">
+              {error}
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div>
+              <input
+                type="text"
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                placeholder="Name"
+                className="w-full px-4 py-3 bg-gray-900 bg-opacity-60 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400 transition"
+              />
+            </div>
+
+            <div>
+              <input
+                type="email"
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                placeholder="Email"
+                className="w-full px-4 py-3 bg-gray-900 bg-opacity-60 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400 transition"
+                required
+              />
+            </div>
+
+            <div>
+              <input
+                type="password"
+                value={formData.password}
+                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                placeholder="Password"
+                className="w-full px-4 py-3 bg-gray-900 bg-opacity-60 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400 transition"
+                required
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-cyan-500 text-gray-900 py-3 rounded-lg font-bold hover:bg-cyan-400 transition disabled:opacity-50 mt-6"
+            >
+              {loading ? 'Creating account...' : 'Register'}
+            </button>
+          </form>
+
+          <p className="mt-6 text-center text-gray-400 text-sm">
+            Already have an account?{' '}
+            <Link href="/login" className="text-cyan-400 hover:text-cyan-300 font-semibold">
+              Login
+            </Link>
+          </p>
+        </div>
         
-        {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
-            {error}
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label className="block text-gray-700 font-semibold mb-3 text-sm">Name</label>
-            <input
-              type="text"
-              value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-base"
-              placeholder="John Doe"
-            />
-          </div>
-
-          <div>
-            <label className="block text-gray-700 font-semibold mb-3 text-sm">Email</label>
-            <input
-              type="email"
-              value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-base"
-              placeholder="your.email@example.com"
-              required
-            />
-          </div>
-
-          <div>
-            <label className="block text-gray-700 font-semibold mb-3 text-sm">Password</label>
-            <input
-              type="password"
-              value={formData.password}
-              onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-base"
-              placeholder="Create a strong password"
-              required
-            />
-            <p className="text-sm text-gray-500 mt-2">Min 8 chars, 1 uppercase, 1 lowercase, 1 number</p>
-          </div>
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-indigo-600 text-white py-4 rounded-lg font-semibold text-base hover:bg-indigo-700 transition disabled:opacity-50 mt-8"
-          >
-            {loading ? 'Creating account...' : 'Register'}
-          </button>
-        </form>
-
-        <p className="mt-8 text-center text-gray-600">
-          Already have an account?{' '}
-          <Link href="/login" className="text-indigo-600 font-semibold hover:underline">
-            Login
-          </Link>
-        </p>
-
-        <Link href="/" className="block mt-6 text-center text-gray-500 hover:text-gray-700">
+        <Link href="/" className="block mt-6 text-center text-gray-400 hover:text-gray-300 text-sm">
           ← Back to Home
         </Link>
       </div>
