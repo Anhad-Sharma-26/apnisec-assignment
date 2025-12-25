@@ -87,22 +87,23 @@ export class EmailUtil {
         </head>
         <body>
           <div class="header">
-            <h1>🔐 Welcome to ApniSec!</h1>
+            <h1>🔐 Welcome to AnhadSec!</h1>
           </div>
           <div class="content">
             <h2>Hello ${userName || 'there'}!</h2>
-            <p>Thank you for joining ApniSec - your trusted cybersecurity partner.</p>
-            <p>We're excited to have you on board! With ApniSec, you can:</p>
+            <p>Thank you for joining AnhadSec - your trusted cybersecurity partner.</p>
+            <p>We're excited to have you on board! With AnhadSec, you can:</p>
             <ul>
               <li>🛡️ Manage Cloud Security issues</li>
               <li>📊 Track Reteam Assessments</li>
               <li>🔍 Monitor VAPT (Vulnerability Assessment & Penetration Testing)</li>
+              <li>Just so you know this is a showcase website, I will do none of those things.</li>
             </ul>
             <p>Get started by creating your first issue and exploring our platform.</p>
             <a href="${process.env.NEXT_PUBLIC_APP_URL}/dashboard" class="button">Go to Dashboard</a>
           </div>
           <div class="footer">
-            <p>© 2024 ApniSec. All rights reserved.</p>
+            <p>© 2024 AnhadSec. All rights reserved.</p>
             <p>Professional Cybersecurity Solutions</p>
           </div>
         </body>
@@ -204,7 +205,7 @@ export class EmailUtil {
             <a href="${process.env.NEXT_PUBLIC_APP_URL}/dashboard" class="button">View Issue</a>
           </div>
           <div class="footer">
-            <p>© 2024 ApniSec. All rights reserved.</p>
+            <p>© 2024 AnhadSec. All rights reserved.</p>
             <p>Professional Cybersecurity Solutions</p>
           </div>
         </body>
