@@ -69,42 +69,42 @@ export default function ProfilePage() {
   return (
     <div className="min-h-screen bg-gray-100">
       <nav className="bg-white shadow-lg">
-        <div className="container mx-auto px-6 py-4 flex justify-between items-center">
+        <div className="max-w-7xl mx-auto px-8 py-5 flex justify-between items-center">
           <h1 className="text-2xl font-bold text-indigo-900">AnhadSec Dashboard</h1>
-          <Link href="/dashboard" className="text-indigo-600 hover:text-indigo-800">
+          <Link href="/dashboard" className="text-indigo-600 hover:text-indigo-800 font-medium">
             ← Back to Dashboard
           </Link>
         </div>
       </nav>
 
-      <div className="container mx-auto px-6 py-8 max-w-2xl">
-        <div className="bg-white rounded-lg shadow-lg p-8">
-          <h2 className="text-2xl font-bold mb-6">User Profile</h2>
+      <div className="max-w-3xl mx-auto px-8 py-10">
+        <div className="bg-white rounded-lg shadow-lg p-10">
+          <h2 className="text-2xl font-bold mb-8">User Profile</h2>
 
           {message && (
-            <div className={`px-4 py-3 rounded mb-4 ${message.includes('success') ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+            <div className={`px-4 py-3 rounded mb-6 ${message.includes('success') ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
               {message}
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label className="block text-gray-700 font-semibold mb-2">Name</label>
+              <label className="block text-gray-700 font-semibold mb-3 text-sm">Name</label>
               <input
                 type="text"
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
               />
             </div>
 
             <div>
-              <label className="block text-gray-700 font-semibold mb-2">Email</label>
+              <label className="block text-gray-700 font-semibold mb-3 text-sm">Email</label>
               <input
                 type="email"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 required
               />
             </div>
@@ -112,15 +112,15 @@ export default function ProfilePage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 disabled:opacity-50"
+              className="w-full bg-indigo-600 text-white py-4 rounded-lg font-semibold hover:bg-indigo-700 disabled:opacity-50 mt-8"
             >
               {loading ? 'Updating...' : 'Update Profile'}
             </button>
           </form>
 
-          <div className="mt-8 pt-8 border-t">
-            <h3 className="font-semibold mb-2">Account Info</h3>
-            <p className="text-gray-600">User ID: {user?.id}</p>
+          <div className="mt-10 pt-8 border-t">
+            <h3 className="font-semibold mb-4 text-lg">Account Info</h3>
+            <p className="text-gray-600 mb-2">User ID: {user?.id}</p>
             <p className="text-gray-600">Joined: {user?.createdAt ? new Date(user.createdAt).toLocaleDateString() : ''}</p>
           </div>
         </div>
